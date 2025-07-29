@@ -1,0 +1,50 @@
+# TuneMetrics Configuration File
+
+project:
+  name: "TuneMetrics Music Engagement Predictor"
+  version: "1.0.0"
+  description: "Predictor de engagement musical usando datos de Spotify"
+
+data:
+  raw_data_path: "data/raw/"
+  processed_data_path: "data/processed/"
+  
+  # Archivos de entrada
+  spotify_history: "spotify_history.csv"
+  data_dictionary: "spotify_data_dictionary.csv"
+  
+  # Split temporal
+  train_years: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]
+  validation_years: [2023]
+  test_years: [2024]
+
+features:
+  # Métricas de engagement
+  estimated_song_duration_ms: 210000  # 3.5 minutos
+  
+  # Umbrales para categorización
+  engagement_thresholds:
+    high: 0.75
+    medium: 0.45
+
+models:
+  # Algoritmos a entrenar
+  algorithms:
+    - "random_forest"
+    - "xgboost" 
+    - "logistic_regression"
+    - "mlp"
+  
+  # Métricas objetivo
+  target_metrics:
+    min_accuracy: 0.85
+    min_f1_score: 0.80
+  
+  # Validación
+  cv_folds: 5
+  random_state: 42
+
+output:
+  models_path: "models/trained/"
+  metrics_path: "models/metrics/"
+  reports_path: "reports/"
