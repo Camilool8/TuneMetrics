@@ -1,0 +1,271 @@
+{
+  "timestamp": "2025-07-29T02:31:55.406214",
+  "engagement_by_features": {
+    "completion_rate_score": {
+      "high_avg": 0.9055,
+      "medium_avg": 0.6209,
+      "low_avg": 0.1969
+    },
+    "skip_resistance_score": {
+      "high_avg": 0.9971,
+      "medium_avg": 0.9691,
+      "low_avg": 0.6576
+    },
+    "context_preference_score": {
+      "high_avg": 0.9298,
+      "medium_avg": 0.308,
+      "low_avg": 0.1315
+    },
+    "consistency_score": {
+      "high_avg": 0.9774,
+      "medium_avg": 0.8715,
+      "low_avg": 0.8764
+    },
+    "platform_appeal_score": {
+      "high_avg": 0.1809,
+      "medium_avg": 0.2323,
+      "low_avg": 0.1995
+    },
+    "popularity_score": {
+      "high_avg": 0.1838,
+      "medium_avg": 0.3143,
+      "low_avg": 0.2941
+    }
+  },
+  "correlation_analysis": {
+    "top_positive_correlations": {
+      "final_engagement_score": 1.0,
+      "completion_rate_score": 0.8188552359804127,
+      "ms_played_mean": 0.7447875750312046,
+      "skip_resistance_score": 0.5949336598441576,
+      "context_preference_score": 0.5838653839083415,
+      "consistency_score": 0.26810888434322155,
+      "weekend_listening_rate": -0.05409667510352552,
+      "platform_appeal_score": -0.08539602661142952,
+      "hour_variability": -0.0986082002147533,
+      "total_plays": -0.11740337072802107
+    },
+    "top_negative_correlations": {
+      "hour_variability": -0.0986082002147533,
+      "total_plays": -0.11740337072802107,
+      "popularity_score": -0.1934987435891538,
+      "ms_played_std": -0.2798007298461783,
+      "completion_rate_std": -0.37033589917290577
+    }
+  },
+  "engagement_trends": {},
+  "top_performers": [
+    {
+      "track_name_first": "Shrike",
+      "artist_name_first": "Hozier",
+      "final_engagement_score": 1.0,
+      "total_plays": 7,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "The Fear",
+      "artist_name_first": "Ben Howard",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Ditmas",
+      "artist_name_first": "Mumford & Sons",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Elsewhere",
+      "artist_name_first": "Young the Giant",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "You Get What You Give",
+      "artist_name_first": "New Radicals",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "It Will Come Back",
+      "artist_name_first": "Hozier",
+      "final_engagement_score": 0.98,
+      "total_plays": 3,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Broad-Shouldered Beasts",
+      "artist_name_first": "Mumford & Sons",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Recording 15",
+      "artist_name_first": "Shannon Lay",
+      "final_engagement_score": 0.98,
+      "total_plays": 5,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "A Thousand Matches",
+      "artist_name_first": "Passenger",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Hush - 1998 Remaster",
+      "artist_name_first": "Deep Purple",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Aftermath",
+      "artist_name_first": "Muse",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "The Way Back Home",
+      "artist_name_first": "Aisha Badru",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Only Love",
+      "artist_name_first": "Mumford & Sons",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Hot Gates",
+      "artist_name_first": "Mumford & Sons",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Defector",
+      "artist_name_first": "Muse",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "DARE",
+      "artist_name_first": "Gorillaz",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "In The Woods Somewhere",
+      "artist_name_first": "Hozier",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "Wilder Mind",
+      "artist_name_first": "Mumford & Sons",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "The Globalist",
+      "artist_name_first": "Muse",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    },
+    {
+      "track_name_first": "The Handler",
+      "artist_name_first": "Muse",
+      "final_engagement_score": 0.98,
+      "total_plays": 2,
+      "engagement_category": "High"
+    }
+  ],
+  "bottom_performers": [
+    {
+      "track_name_first": "Pass The Dutchie",
+      "artist_name_first": "Musical Youth",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Encima De Mil",
+      "artist_name_first": "Alejandro Santamaria",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Ruby, My Dear",
+      "artist_name_first": "Thelonious Monk",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Dirty Work",
+      "artist_name_first": "Austin Mahone",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Nobody",
+      "artist_name_first": "Selena Gomez",
+      "final_engagement_score": 0.0,
+      "total_plays": 2,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Un Zombie A La Intemperie",
+      "artist_name_first": "Alejandro Sanz",
+      "final_engagement_score": 0.0,
+      "total_plays": 11,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Take Five (with The Dave Brubeck Quartet) - Single Version",
+      "artist_name_first": "Carmen McRae",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "M\u00edrame",
+      "artist_name_first": "Timbiriche",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Champagne Supernova",
+      "artist_name_first": "Oasis",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    },
+    {
+      "track_name_first": "Cielo - 2002",
+      "artist_name_first": "Benny",
+      "final_engagement_score": 0.0,
+      "total_plays": 1,
+      "engagement_category": "Low"
+    }
+  ]
+}

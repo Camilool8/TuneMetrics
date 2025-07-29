@@ -8,11 +8,11 @@ project:
 data:
   raw_data_path: "data/raw/"
   processed_data_path: "data/processed/"
-  
+
   # Archivos de entrada
   spotify_history: "spotify_history.csv"
   data_dictionary: "spotify_data_dictionary.csv"
-  
+
   # Split temporal
   train_years: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]
   validation_years: [2023]
@@ -20,8 +20,8 @@ data:
 
 features:
   # Métricas de engagement
-  estimated_song_duration_ms: 210000  # 3.5 minutos
-  
+  estimated_song_duration_ms: 210000 # 3.5 minutos
+
   # Umbrales para categorización
   engagement_thresholds:
     high: 0.75
@@ -31,20 +31,38 @@ models:
   # Algoritmos a entrenar
   algorithms:
     - "random_forest"
-    - "xgboost" 
+    - "xgboost"
     - "logistic_regression"
     - "mlp"
-  
+
   # Métricas objetivo
   target_metrics:
     min_accuracy: 0.85
     min_f1_score: 0.80
-  
+
   # Validación
   cv_folds: 5
   random_state: 42
 
 output:
-  models_path: "models/trained/"
-  metrics_path: "models/metrics/"
+  models_path: "models/"
   reports_path: "reports/"
+  dashboard_path: "dashboard_data/"
+
+monitoring:
+  enabled: true
+  monitoring_window_days: 7
+  alert_thresholds:
+    accuracy_drop: 0.05
+    confidence_drop: 0.10
+    data_drift_score: 0.15
+
+inference:
+  default_model: "best"
+  batch_size: 1000
+  confidence_threshold: 0.6
+
+evaluation:
+  test_data_split: "test"
+  create_visualizations: true
+  save_detailed_results: true

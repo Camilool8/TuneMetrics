@@ -11,3 +11,5 @@ pyyaml
 joblib
 lightgbm
 optuna
+pyarrow
+fastparquet

@@ -1,0 +1,33 @@
+
+🎵 TUNEMETRICS - REPORTE DE PROCESAMIENTO DE DATOS 🎵
+============================================================
+
+📊 RESUMEN DEL PIPELINE:
+├── Bronze (Raw): 149,860 reproducciones individuales
+├── Silver (Cleaned): 149,860 reproducciones válidas
+└── Gold (Aggregated): 16,527 canciones únicas
+
+🎯 MÉTRICAS DE ENGAGEMENT CREADAS:
+├── Completion Rate Score: Duración vs estimación (3.5min)
+├── Skip Resistance Score: Proporción de reproducciones completas
+├── Context Preference Score: Escucha intencional vs shuffle
+├── Consistency Score: Baja variabilidad en comportamiento
+├── Platform Appeal Score: Diversidad de dispositivos
+└── Final Engagement Score: Métrica compuesta principal
+
+📈 DISTRIBUCIÓN DE CATEGORÍAS:
+engagement_category
+Medium    8435
+High      4110
+Low       3982
+
+📅 DISTRIBUCIÓN TEMPORAL:
+data_split
+train         14030
+validation     1464
+test           1033
+
+🔧 FEATURES DISPONIBLES PARA MODELADO: 19
+
+✅ DATOS LISTOS PARA ENTRENAMIENTO DE MODELOS
+        

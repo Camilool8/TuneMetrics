@@ -1,0 +1,68 @@
+{
+  "deployment_status": {
+    "deployment_status": {
+      "initialized": true,
+      "models_loaded": true,
+      "monitoring_active": true,
+      "last_health_check": "2025-07-29 02:31:56.256530"
+    },
+    "config": {
+      "models_dir": "models/",
+      "data_dir": "data/processed/",
+      "output_dir": "reports/",
+      "monitoring": {
+        "enabled": true,
+        "monitoring_window_days": 7,
+        "alert_thresholds": {
+          "accuracy_drop": 0.05,
+          "confidence_drop": 0.1,
+          "data_drift_score": 0.15
+        }
+      },
+      "inference": {
+        "default_model": "best",
+        "batch_size": 1000,
+        "confidence_threshold": 0.6
+      },
+      "evaluation": {
+        "test_data_split": "test",
+        "create_visualizations": true,
+        "save_detailed_results": true
+      }
+    },
+    "models_dir": "models",
+    "data_dir": "data/processed",
+    "output_dir": "reports"
+  },
+  "health_check": {
+    "timestamp": "2025-07-29 02:31:56.256521",
+    "overall_status": "healthy",
+    "components": {
+      "evaluator": {
+        "status": "healthy",
+        "models_loaded": 4,
+        "details": "4 modelos cargados"
+      },
+      "inference_pipeline": {
+        "status": "healthy",
+        "default_model": "logistic_regression",
+        "available_models": [
+          "random_forest",
+          "xgboost",
+          "logistic_regression",
+          "mlp"
+        ],
+        "details": "Pipeline listo con 4 modelos"
+      },
+      "performance_monitor": {
+        "status": "healthy",
+        "active_alerts": 0,
+        "details": "Monitor activo con 0 alertas"
+      }
+    },
+    "alerts": [],
+    "recommendations": [
+      "Sistema funcionando correctamente"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "random_state": 42,
+  "target_metrics": {
+    "min_accuracy": 0.85,
+    "min_f1_score": 0.8
+  }
+}

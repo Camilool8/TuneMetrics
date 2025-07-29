@@ -18,6 +18,20 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
+class NumpyEncoder(json.JSONEncoder):
+    """
+    Codificador JSON especial para manejar tipos de datos de NumPy que no son serializables.
+    Convierte los tipos de NumPy a tipos nativos de Python (int, float).
+    """
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super(NumpyEncoder, self).default(obj)
+
 class TuneMetricsModelTrainer:
     """
     Entrenador de modelos para predicción de engagement musical
@@ -468,7 +482,7 @@ class TuneMetricsModelTrainer:
         # Guardar métricas en JSON
         metrics_path = metrics_dir / "model_metrics.json"
         with open(metrics_path, 'w') as f:
-            json.dump(results_for_json, f, indent=2)
+            json.dump(results_for_json, f, indent=2, cls=NumpyEncoder)
         print(f"  ✅ Métricas guardadas: {metrics_path}")
         
         # Guardar configuración

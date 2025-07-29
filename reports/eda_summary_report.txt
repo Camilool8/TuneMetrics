@@ -1,0 +1,29 @@
+
+MÉTRICAS CLAVE PARA MODELO DE ENGAGEMENT:
+├── Dataset: 149,860 reproducciones de 16,527 canciones únicas
+├── Período: 2013-2024 (12 años)
+├── Artistas: 4,113 únicos
+│
+├── ENGAGEMENT BASELINE:
+│   ├── Duración promedio: 2.1 min
+│   ├── Completion rate estimado: 61.1%
+│   ├── Skip resistance: 94.7%
+│   └── Intentional listening: 25.5%
+│
+├── DISTRIBUCIÓN TEMPORAL:
+│   ├── Pico de actividad: 2017
+│   └── Registros por año: 12488 promedio
+│
+└── PREPARACIÓN PARA MODELADO:
+    ├── Variables target: Engagement categories (Alto/Medio/Bajo)
+    ├── Features principales: completion_rate, skip_resistance, context_preference
+    ├── Split temporal: 2013-2022 (train), 2023 (val), 2024 (test)
+    └── Agregación objetivo: ~16,527 canciones para modelado
+
+PRÓXIMOS PASOS:
+1. Implementar pipeline Bronze → Silver → Gold
+2. Crear métricas de engagement compuestas
+3. Agregar datos por canción
+4. Entrenar modelos de clasificación
+5. Evaluar performance y interpretabilidad
+        

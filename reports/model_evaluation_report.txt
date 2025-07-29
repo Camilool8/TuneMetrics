@@ -1,0 +1,81 @@
+
+🎵 TUNEMETRICS - REPORTE DE EVALUACIÓN DE MODELOS 🎵
+======================================================================
+
+📊 MODELOS EVALUADOS:
+├── Modelos cargados: 4
+├── Features utilizadas: 11
+└── Datos evaluados: 1033 predicciones
+
+🏆 RENDIMIENTO GENERAL:
+├── Mejor Accuracy: logistic_regression (0.9990)
+├── Mejor F1-Macro: logistic_regression (0.9992)
+└── Promedio Accuracy: 0.9937
+
+📈 MÉTRICAS DETALLADAS:
+
+RANDOM_FOREST:
+  ├── Accuracy: 0.9855
+  ├── F1-Macro: 0.9845
+  ├── F1-Weighted: 0.9854
+  ├── Precision: 0.9856
+  └── Recall: 0.9855
+XGBOOST:
+  ├── Accuracy: 0.9913
+  ├── F1-Macro: 0.9910
+  ├── F1-Weighted: 0.9913
+  ├── Precision: 0.9913
+  └── Recall: 0.9913
+LOGISTIC_REGRESSION:
+  ├── Accuracy: 0.9990
+  ├── F1-Macro: 0.9992
+  ├── F1-Weighted: 0.9990
+  ├── Precision: 0.9990
+  └── Recall: 0.9990
+MLP:
+  ├── Accuracy: 0.9990
+  ├── F1-Macro: 0.9992
+  ├── F1-Weighted: 0.9990
+  ├── Precision: 0.9990
+  └── Recall: 0.9990
+
+🎯 ANÁLISIS DE CONFIANZA:
+
+RANDOM_FOREST:
+  ├── Confianza promedio: 0.938
+  ├── Predicciones baja confianza: 25
+  └── Predicciones alta confianza: 951
+XGBOOST:
+  ├── Confianza promedio: 0.985
+  ├── Predicciones baja confianza: 10
+  └── Predicciones alta confianza: 1009
+LOGISTIC_REGRESSION:
+  ├── Confianza promedio: 0.899
+  ├── Predicciones baja confianza: 4
+  └── Predicciones alta confianza: 700
+MLP:
+  ├── Confianza promedio: 0.996
+  ├── Predicciones baja confianza: 2
+  └── Predicciones alta confianza: 1024
+
+🎯 FEATURES MÁS IMPORTANTES:
+
+RANDOM_FOREST:
+  1. context_preference_score: 0.3988
+  2. completion_rate_score: 0.2036
+  3. ms_played_mean: 0.1727
+  4. skip_resistance_score: 0.1004
+  5. consistency_score: 0.0375
+XGBOOST:
+  1. completion_rate_score: 0.2926
+  2. context_preference_score: 0.2384
+  3. ms_played_mean: 0.1588
+  4. skip_resistance_score: 0.1348
+  5. consistency_score: 0.0608
+LOGISTIC_REGRESSION:
+  1. completion_rate_score: 75.5392
+  2. context_preference_score: 54.5133
+  3. skip_resistance_score: 39.9761
+  4. consistency_score: 9.2011
+  5. platform_appeal_score: 7.3295
+        

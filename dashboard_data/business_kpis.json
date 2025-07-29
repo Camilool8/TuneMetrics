@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-07-29T02:31:55.420015",
+  "roi_simulation": {
+    "high_engagement_expected_roi": 3.5,
+    "medium_engagement_expected_roi": 1.2,
+    "low_engagement_expected_roi": 0.3,
+    "optimal_portfolio_high_pct": 40,
+    "optimal_portfolio_medium_pct": 45,
+    "optimal_portfolio_low_pct": 15,
+    "current_portfolio_high_pct": 24.868397168270103,
+    "current_portfolio_medium_pct": 51.03769589157137,
+    "current_portfolio_low_pct": 24.09390694015853,
+    "estimated_savings_per_campaign": 139370000.0
+  },
+  "market_insights": {
+    "avg_plays_per_song": 9.06758637381255,
+    "median_plays_per_song": 1.0,
+    "top_10_pct_plays_threshold": 32.0,
+    "viral_potential_songs": 3990,
+    "underperformed_songs": 0
+  },
+  "portfolio_analysis": {
+    "portfolio_score": 0.6120202727686451,
+    "portfolio_consistency": 0.7690636209405417,
+    "high_potential_percentage": 24.85629575845586,
+    "diversification_score": 23.09363790594583,
+    "concentration_risk": 7.339505052338597
+  },
+  "risk_assessment": {
+    "high_risk_songs": 3007,
+    "medium_risk_songs": 4604,
+    "low_risk_songs": 8916,
+    "portfolio_risk_score": 0.3879797272313549,
+    "recommended_action": "Good portfolio - Optimize medium performers"
+  }
+}

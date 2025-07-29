@@ -1,0 +1,32 @@
+{
+  "timestamp": "2025-07-29T02:31:55.404153",
+  "summary_metrics": {
+    "total_songs_analyzed": 16527,
+    "avg_engagement_score": 0.6120202727686451,
+    "high_potential_songs": 4110,
+    "total_plays_analyzed": 149860,
+    "avg_completion_rate": 0.589526525465948,
+    "avg_skip_resistance": 0.9010237377948995
+  },
+  "engagement_distribution": {
+    "high_engagement_count": 4110,
+    "medium_engagement_count": 8435,
+    "low_engagement_count": 3982,
+    "high_engagement_percentage": 24.868397168270103,
+    "medium_engagement_percentage": 51.03769589157137,
+    "low_engagement_percentage": 24.09390694015853
+  },
+  "investment_recommendations": {
+    "high_investment_recommended": 3589,
+    "moderate_investment_recommended": 8435,
+    "avoid_investment": 3982,
+    "additional_analysis_required": 521
+  },
+  "model_performance": {
+    "best_model_name": "logistic_regression",
+    "best_model_accuracy": 0.9990319457889641,
+    "best_model_f1_score": 0.9991725186170525,
+    "models_available": 4
+  },
+  "business_insights": {}
+}

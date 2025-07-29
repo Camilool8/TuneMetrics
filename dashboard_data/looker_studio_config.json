@@ -1,0 +1,87 @@
+{
+  "dashboard_structure": {
+    "executive_page": {
+      "title": "TuneMetrics - Executive Summary",
+      "charts": [
+        {
+          "type": "scorecard",
+          "title": "Total Songs Analyzed",
+          "metric": "total_songs_analyzed",
+          "source": "executive_summary.json"
+        },
+        {
+          "type": "pie_chart",
+          "title": "Engagement Distribution",
+          "dimensions": [
+            "engagement_category"
+          ],
+          "metrics": [
+            "song_count"
+          ],
+          "source": "main_engagement_data.csv"
+        },
+        {
+          "type": "bar_chart",
+          "title": "Investment Recommendations",
+          "dimensions": [
+            "recommendation_type"
+          ],
+          "metrics": [
+            "song_count"
+          ],
+          "source": "business_kpis.json"
+        }
+      ]
+    },
+    "detailed_analysis_page": {
+      "title": "TuneMetrics - Detailed Analysis",
+      "charts": [
+        {
+          "type": "scatter_plot",
+          "title": "Engagement vs Popularity",
+          "x_axis": "Total_Plays",
+          "y_axis": "Engagement_Score",
+          "color": "Engagement_Category",
+          "source": "main_engagement_data.csv"
+        },
+        {
+          "type": "line_chart",
+          "title": "Engagement Trends Over Time",
+          "x_axis": "year",
+          "y_axis": "avg_engagement",
+          "source": "time_series_analysis.json"
+        }
+      ]
+    },
+    "model_performance_page": {
+      "title": "TuneMetrics - Model Performance",
+      "charts": [
+        {
+          "type": "bar_chart",
+          "title": "Model Comparison",
+          "dimensions": [
+            "model_name"
+          ],
+          "metrics": [
+            "accuracy",
+            "f1_macro"
+          ],
+          "source": "model_performance.json"
+        }
+      ]
+    }
+  },
+  "suggested_filters": [
+    "Engagement_Category",
+    "Data_Split",
+    "Artist_Name"
+  ],
+  "color_scheme": {
+    "high_engagement": "#2E8B57",
+    "medium_engagement": "#FFD700",
+    "low_engagement": "#DC143C",
+    "primary": "#1f77b4",
+    "secondary": "#ff7f0e",
+    "accent": "#2ca02c"
+  }
+}

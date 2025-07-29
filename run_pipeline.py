@@ -22,32 +22,50 @@ def check_requirements():
     print("🔍 Verificando requisitos...")
     
     required_files = [
-        "data/raw/spotify_history.csv",
-        "configs/config.yaml"
+        "data/raw/spotify_history.csv"
     ]
     
     required_dirs = [
-        "src/data",
-        "src/models", 
-        "src/deployment",
-        "src/visualization"
+        "src",
+        "data/raw",
+        "configs"
     ]
     
-    missing_files = []
-    missing_dirs = []
+    # Crear directorios que no existen
+    created_dirs = []
+    for dir_path in required_dirs:
+        if not Path(dir_path).exists():
+            Path(dir_path).mkdir(parents=True, exist_ok=True)
+            created_dirs.append(dir_path)
     
+    if created_dirs:
+        print(f"✅ Directorios creados: {', '.join(created_dirs)}")
+    
+    # Verificar archivos críticos
+    missing_files = []
     for file_path in required_files:
         if not Path(file_path).exists():
             missing_files.append(file_path)
     
-    for dir_path in required_dirs:
-        if not Path(dir_path).exists():
-            missing_dirs.append(dir_path)
-    
-    if missing_files or missing_dirs:
-        print("❌ Archivos o directorios faltantes:")
-        for missing in missing_files + missing_dirs:
+    if missing_files:
+        print("❌ Archivos críticos faltantes:")
+        for missing in missing_files:
             print(f"  - {missing}")
+        print("\n💡 SOLUCIÓN:")
+        print("  1. Coloca el archivo spotify_history.csv en data/raw/")
+        print("  2. O usa un dataset de ejemplo si no tienes los datos reales")
+        return False
+    
+    # Verificar módulos Python
+    print("🔍 Verificando módulos Python...")
+    try:
+        import pandas as pd
+        import numpy as np
+        import sklearn
+        print("✅ Dependencias básicas disponibles")
+    except ImportError as e:
+        print(f"❌ Dependencias faltantes: {e}")
+        print("💡 Ejecuta: pip install pandas numpy scikit-learn")
         return False
     
     print("✅ Todos los requisitos están presentes")
@@ -64,12 +82,19 @@ def run_quick_pipeline():
         print("\n🚀 Iniciando pipeline TuneMetrics...")
         start_time = datetime.now()
         
+        # Inicializar runner UNA VEZ al principio
+        try:
+            from main import TuneMetricsPipelineRunner
+            runner = TuneMetricsPipelineRunner()
+            print("✅ Pipeline runner inicializado")
+        except Exception as e:
+            print(f"❌ Error inicializando runner: {e}")
+            return False
+        
         # Paso 1: EDA
         print("\n📊 PASO 1: Análisis Exploratorio de Datos")
         print("-" * 50)
         try:
-            from main import TuneMetricsPipelineRunner
-            runner = TuneMetricsPipelineRunner()
             runner.step_1_exploratory_analysis()
             print("✅ EDA completado")
         except Exception as e:
@@ -173,9 +198,19 @@ def run_individual_step():
         print(f"\n🔄 Ejecutando: {step_name}")
         
         try:
-            from main import TuneMetricsPipelineRunner
-            runner = TuneMetricsPipelineRunner()
+            # Intentar importar e inicializar runner
+            try:
+                from main import TuneMetricsPipelineRunner
+                runner = TuneMetricsPipelineRunner()
+            except ImportError as e:
+                print(f"❌ Error importando módulos: {e}")
+                print("💡 Asegúrate de que todos los archivos estén en la estructura correcta")
+                return False
+            except Exception as e:
+                print(f"❌ Error inicializando runner: {e}")
+                return False
             
+            # Ejecutar paso específico
             if step_code == 'eda':
                 runner.step_1_exploratory_analysis()
             elif step_code == 'processing':
@@ -193,6 +228,7 @@ def run_individual_step():
             
         except Exception as e:
             print(f"❌ Error ejecutando {step_name}: {e}")
+            print(f"💡 Detalles del error: {type(e).__name__}")
             return False
     else:
         print("❌ Opción inválida")
