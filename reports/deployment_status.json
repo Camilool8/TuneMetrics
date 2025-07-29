@@ -4,7 +4,7 @@
       "initialized": true,
       "models_loaded": true,
       "monitoring_active": true,
-      "last_health_check": "2025-07-29 02:31:56.256530"
+      "last_health_check": "2025-07-29 13:52:49.614997"
     },
     "config": {
       "models_dir": "models/",
@@ -35,7 +35,7 @@
     "output_dir": "reports"
   },
   "health_check": {
-    "timestamp": "2025-07-29 02:31:56.256521",
+    "timestamp": "2025-07-29 13:52:49.614991",
     "overall_status": "healthy",
     "components": {
       "evaluator": {
@@ -61,6 +61,8 @@
       }
     },
     "alerts": [],
-    "recommendations": ["Sistema funcionando correctamente"]
+    "recommendations": [
+      "Sistema funcionando correctamente"
+    ]
   }
 }

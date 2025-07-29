@@ -35,11 +35,11 @@ class TuneMetricsDataProcessor:
         Args:
             data_path (str): Ruta al archivo CSV raw
         """
-        print("🔄 Cargando datos en capa BRONZE...")
+        print("Cargando datos en capa BRONZE...")
         
         try:
             self.bronze_data = pd.read_csv(data_path)
-            print(f"✅ Bronze: {len(self.bronze_data):,} registros cargados")
+            print(f"Bronze: {len(self.bronze_data):,} registros cargados")
             
             # Validaciones básicas
             required_columns = [
@@ -52,18 +52,18 @@ class TuneMetricsDataProcessor:
             if missing_columns:
                 raise ValueError(f"Columnas faltantes: {missing_columns}")
             
-            print("✅ Validación de estructura: PASADA")
+            print("Validación de estructura: PASADA")
             return self.bronze_data
             
         except Exception as e:
-            print(f"❌ Error cargando Bronze data: {e}")
+            print(f"Error cargando Bronze data: {e}")
             raise
     
     def create_silver_data(self):
         """
         Procesa Bronze → Silver: Limpieza y validación de datos
         """
-        print("\n🔄 Procesando Bronze → SILVER...")
+        print("\nProcesando Bronze → SILVER...")
         
         if self.bronze_data is None:
             raise ValueError("Debe cargar Bronze data primero")
@@ -73,14 +73,14 @@ class TuneMetricsDataProcessor:
         initial_count = len(silver)
         
         # 1. Conversión de tipos de datos
-        print("  📝 Convirtiendo tipos de datos...")
+        print("  Convirtiendo tipos de datos...")
         silver['ts'] = pd.to_datetime(silver['ts'])
         silver['ms_played'] = pd.to_numeric(silver['ms_played'], errors='coerce')
         silver['shuffle'] = silver['shuffle'].astype(bool)
         silver['skipped'] = silver['skipped'].astype(bool)
         
         # 2. Limpieza de datos
-        print("  🧹 Limpiando datos...")
+        print("  Limpiando datos...")
         
         # Eliminar registros con valores críticos faltantes
         critical_nulls = silver[
@@ -90,12 +90,12 @@ class TuneMetricsDataProcessor:
             silver['track_name'].isna() |
             silver['artist_name'].isna()
         ]
-        print(f"    ⚠️  Registros con nulls críticos: {len(critical_nulls):,}")
+        print(f"    Registros con nulls críticos: {len(critical_nulls):,}")
         silver = silver.dropna(subset=['spotify_track_uri', 'ts', 'ms_played', 'track_name', 'artist_name'])
         
         # Filtrar ms_played válidos (0 a 30 minutos)
         invalid_duration = silver[(silver['ms_played'] < 0) | (silver['ms_played'] > 1800000)]
-        print(f"    ⚠️  Registros con duración inválida: {len(invalid_duration):,}")
+        print(f"    Registros con duración inválida: {len(invalid_duration):,}")
         silver = silver[(silver['ms_played'] >= 0) & (silver['ms_played'] <= 1800000)]
         
         # Limpiar nombres de artistas y canciones
@@ -109,7 +109,7 @@ class TuneMetricsDataProcessor:
         silver['platform'] = silver['platform'].fillna('unknown')
         
         # 3. Crear variables derivadas temporales
-        print("  📅 Creando variables temporales...")
+        print("  Creando variables temporales...")
         silver['year'] = silver['ts'].dt.year
         silver['month'] = silver['ts'].dt.month
         silver['day_of_week'] = silver['ts'].dt.dayofweek
@@ -117,7 +117,7 @@ class TuneMetricsDataProcessor:
         silver['is_weekend'] = silver['day_of_week'].isin([5, 6])
         
         # 4. Crear variables de contexto
-        print("  🎯 Creando variables de contexto...")
+        print("  Creando variables de contexto...")
         
         # Intencionalidad de escucha
         silver['is_intentional'] = ~silver['shuffle']
@@ -131,7 +131,7 @@ class TuneMetricsDataProcessor:
         silver['natural_end'] = silver['reason_end'].isin(natural_ends)
         
         # 5. Métricas individuales de engagement
-        print("  📊 Calculando métricas de engagement individuales...")
+        print("  Calculando métricas de engagement individuales...")
         
         # Completion rate (ms_played / duración estimada)
         silver['completion_rate'] = np.clip(silver['ms_played'] / self.estimated_duration_ms, 0, 1)
@@ -150,15 +150,15 @@ class TuneMetricsDataProcessor:
         )
         
         # 6. Validaciones finales
-        print("  ✅ Validaciones finales...")
+        print("  Validaciones finales...")
         final_count = len(silver)
         cleaned_count = initial_count - final_count
-        print(f"    📉 Registros eliminados: {cleaned_count:,} ({cleaned_count/initial_count*100:.1f}%)")
-        print(f"    📊 Registros finales: {final_count:,}")
+        print(f"    Registros eliminados: {cleaned_count:,} ({cleaned_count/initial_count*100:.1f}%)")
+        print(f"    Registros finales: {final_count:,}")
         
         # Guardar Silver data
         self.silver_data = silver
-        print("✅ Silver: Datos limpios y enriquecidos creados")
+        print("Silver: Datos limpios y enriquecidos creados")
         
         return self.silver_data
     
@@ -166,12 +166,12 @@ class TuneMetricsDataProcessor:
         """
         Procesa Silver → Gold: Agregación por canción y métricas finales
         """
-        print("\n🔄 Procesando Silver → GOLD...")
+        print("\nProcesando Silver → GOLD...")
         
         if self.silver_data is None:
             raise ValueError("Debe crear Silver data primero")
         
-        print("  📊 Agregando datos por canción...")
+        print("  Agregando datos por canción...")
         
         # Agregar por canción (spotify_track_uri)
         agg_dict = {
@@ -233,10 +233,10 @@ class TuneMetricsDataProcessor:
             if old_name in gold.columns:
                 gold = gold.rename(columns={old_name: new_name})
         
-        print(f"  📈 Canciones únicas agregadas: {len(gold):,}")
+        print(f"  Canciones únicas agregadas: {len(gold):,}")
         
         # 7. Crear métricas compuestas de engagement
-        print("  🎯 Calculando métricas compuestas de engagement...")
+        print("  Calculando métricas compuestas de engagement...")
         
         # Completion Rate Score (normalizado)
         gold['completion_rate_score'] = gold['completion_rate_mean']
@@ -258,7 +258,7 @@ class TuneMetricsDataProcessor:
         gold['platform_appeal_score'] = gold['platform_diversity'] / max_platforms
         
         # 8. Engagement Score Final (métrica compuesta principal)
-        print("  🏆 Calculando Engagement Score Final...")
+        print("  Calculando Engagement Score Final...")
         
         # Pesos para cada componente
         weights = {
@@ -279,7 +279,7 @@ class TuneMetricsDataProcessor:
         ) / (gold['final_engagement_score'].max() - gold['final_engagement_score'].min())
         
         # 9. Crear categorías de engagement objetivo
-        print("  🎯 Creando categorías de engagement...")
+        print("  Creando categorías de engagement...")
         
         high_threshold = self.engagement_thresholds['high']
         medium_threshold = self.engagement_thresholds['medium']
@@ -296,13 +296,13 @@ class TuneMetricsDataProcessor:
         
         # Estadísticas de categorías
         category_counts = gold['engagement_category'].value_counts()
-        print("  📊 Distribución de categorías:")
+        print("  Distribución de categorías:")
         for category, count in category_counts.items():
             percentage = (count / len(gold)) * 100
             print(f"    {category}: {count:,} canciones ({percentage:.1f}%)")
         
         # 10. Crear split temporal
-        print("  📅 Creando split temporal...")
+        print("  Creando split temporal...")
         
         train_years = self.config.get('train_years', list(range(2013, 2023)))
         val_years = self.config.get('validation_years', [2023])
@@ -316,13 +316,13 @@ class TuneMetricsDataProcessor:
         )
         
         split_counts = gold['data_split'].value_counts()
-        print("  📊 Distribución temporal:")
+        print("  Distribución temporal:")
         for split, count in split_counts.items():
             percentage = (count / len(gold)) * 100
             print(f"    {split}: {count:,} canciones ({percentage:.1f}%)")
         
         # 11. Seleccionar features finales para modelado
-        print("  🎯 Seleccionando features para modelado...")
+        print("  Seleccionando features para modelado...")
         
         feature_columns = [
             # Identificadores
@@ -350,13 +350,13 @@ class TuneMetricsDataProcessor:
         missing_features = [col for col in feature_columns if col not in gold.columns]
         
         if missing_features:
-            print(f"    ⚠️  Features faltantes: {missing_features}")
+            print(f"    Features faltantes: {missing_features}")
         
         gold_final = gold[available_features].copy()
         
         # Guardar Gold data
         self.gold_data = gold_final
-        print(f"✅ Gold: {len(gold_final):,} canciones con {len(available_features)} features listas para modelado")
+        print(f"Gold: {len(gold_final):,} canciones con {len(available_features)} features listas para modelado")
         
         return self.gold_data
     
@@ -370,24 +370,24 @@ class TuneMetricsDataProcessor:
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
         
-        print("\n💾 Guardando datos procesados...")
+        print("\nGuardando datos procesados...")
         
         # Guardar Silver data
         if self.silver_data is not None:
             silver_path = output_path / "silver_data.parquet"
             self.silver_data.to_parquet(silver_path, index=False)
-            print(f"  ✅ Silver data guardada: {silver_path}")
+            print(f"  Silver data guardada: {silver_path}")
         
         # Guardar Gold data
         if self.gold_data is not None:
             gold_path = output_path / "gold_data.parquet"
             self.gold_data.to_parquet(gold_path, index=False)
-            print(f"  ✅ Gold data guardada: {gold_path}")
+            print(f"  Gold data guardada: {gold_path}")
             
             # Guardar también en CSV para compatibilidad
             gold_csv_path = output_path / "gold_data.csv"
             self.gold_data.to_csv(gold_csv_path, index=False)
-            print(f"  ✅ Gold data CSV guardada: {gold_csv_path}")
+            print(f"  Gold data CSV guardada: {gold_csv_path}")
     
     def generate_processing_report(self):
         """Genera reporte del procesamiento"""
@@ -395,15 +395,15 @@ class TuneMetricsDataProcessor:
             return "No hay datos Gold para reportar"
         
         report = f"""
-🎵 TUNEMETRICS - REPORTE DE PROCESAMIENTO DE DATOS 🎵
+TUNEMETRICS - REPORTE DE PROCESAMIENTO DE DATOS
 {'='*60}
 
-📊 RESUMEN DEL PIPELINE:
+RESUMEN DEL PIPELINE:
 ├── Bronze (Raw): {len(self.bronze_data):,} reproducciones individuales
 ├── Silver (Cleaned): {len(self.silver_data):,} reproducciones válidas
 └── Gold (Aggregated): {len(self.gold_data):,} canciones únicas
 
-🎯 MÉTRICAS DE ENGAGEMENT CREADAS:
+MÉTRICAS DE ENGAGEMENT CREADAS:
 ├── Completion Rate Score: Duración vs estimación (3.5min)
 ├── Skip Resistance Score: Proporción de reproducciones completas
 ├── Context Preference Score: Escucha intencional vs shuffle
@@ -411,15 +411,15 @@ class TuneMetricsDataProcessor:
 ├── Platform Appeal Score: Diversidad de dispositivos
 └── Final Engagement Score: Métrica compuesta principal
 
-📈 DISTRIBUCIÓN DE CATEGORÍAS:
+DISTRIBUCIÓN DE CATEGORÍAS:
 {self.gold_data['engagement_category'].value_counts().to_string()}
 
-📅 DISTRIBUCIÓN TEMPORAL:
+DISTRIBUCIÓN TEMPORAL:
 {self.gold_data['data_split'].value_counts().to_string()}
 
-🔧 FEATURES DISPONIBLES PARA MODELADO: {len(self.gold_data.columns)}
+FEATURES DISPONIBLES PARA MODELADO: {len(self.gold_data.columns)}
 
-✅ DATOS LISTOS PARA ENTRENAMIENTO DE MODELOS
+DATOS LISTOS PARA ENTRENAMIENTO DE MODELOS
         """
         
         return report
@@ -460,10 +460,10 @@ def main():
         with open("reports/data_processing_report.txt", "w") as f:
             f.write(report)
         
-        print("\n✅ Pipeline de procesamiento completado exitosamente!")
+        print("\nPipeline de procesamiento completado exitosamente!")
         
     except Exception as e:
-        print(f"❌ Error en pipeline de procesamiento: {e}")
+        print(f"Error en pipeline de procesamiento: {e}")
         raise
 
 if __name__ == "__main__":

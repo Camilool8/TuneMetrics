@@ -40,7 +40,7 @@ class TuneMetricsInferencePipeline:
     
     def _load_pipeline_components(self):
         """Carga todos los componentes necesarios para la inferencia"""
-        print("🔄 Inicializando pipeline de inferencia...")
+        print("Inicializando pipeline de inferencia...")
         
         trained_dir = self.models_dir / "trained"
         if not trained_dir.exists():
@@ -58,7 +58,7 @@ class TuneMetricsInferencePipeline:
             model_path = trained_dir / filename
             if model_path.exists():
                 self.models[model_name] = joblib.load(model_path)
-                print(f"  ✅ {model_name} cargado")
+                print(f"  {model_name} cargado")
         
         # 2. Cargar scalers
         scaler_files = {
@@ -93,7 +93,7 @@ class TuneMetricsInferencePipeline:
             'weekend_listening_rate', 'hour_variability', 'ms_played_mean', 'ms_played_std'
         ]
         
-        print(f"✅ Pipeline inicializado con modelo por defecto: {self.default_model}")
+        print(f"Pipeline inicializado con modelo por defecto: {self.default_model}")
     
     def _select_best_model(self) -> str:
         """Selecciona automáticamente el mejor modelo basado en métricas"""
@@ -127,7 +127,7 @@ class TuneMetricsInferencePipeline:
         Returns:
             pd.DataFrame: Features procesadas listas para predicción
         """
-        print("🔄 Procesando datos de escucha...")
+        print("Procesando datos de escucha...")
         
         # Validar columnas mínimas requeridas
         required_cols = ['spotify_track_uri', 'ms_played']
@@ -171,7 +171,7 @@ class TuneMetricsInferencePipeline:
         # Crear métricas de engagement
         processed_data = self._create_engagement_features(aggregated)
         
-        print(f"✅ {len(processed_data)} canciones procesadas")
+        print(f"{len(processed_data)} canciones procesadas")
         return processed_data
     
     def _create_engagement_features(self, aggregated_data: pd.DataFrame) -> pd.DataFrame:
@@ -307,7 +307,7 @@ class TuneMetricsInferencePipeline:
         Returns:
             pd.DataFrame: Resultados de predicción para todas las canciones
         """
-        print(f"🔄 Prediciendo engagement para {len(songs_data)} canciones...")
+        print(f"Prediciendo engagement para {len(songs_data)} canciones...")
         
         model_name = model_name or self.default_model
         
@@ -353,7 +353,7 @@ class TuneMetricsInferencePipeline:
             feature_df = pd.DataFrame(X, columns=self.feature_names)
             results = pd.concat([results, feature_df], axis=1)
         
-        print(f"✅ Predicciones completadas para {len(results)} canciones")
+        print(f"Predicciones completadas para {len(results)} canciones")
         return results
     
     def predict_from_spotify_data(self, raw_listening_data: pd.DataFrame,

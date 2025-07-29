@@ -17,7 +17,7 @@ except ImportError:
     # Para ejecución standalone
     import sys
     sys.path.append('.')
-    print("⚠️  Ejecutando en modo standalone")
+    print("Ejecutando en modo standalone")
 
 class TuneMetricsDeploymentManager:
     """
@@ -87,16 +87,16 @@ class TuneMetricsDeploymentManager:
     
     def initialize_deployment(self) -> bool:
         """Inicializa todos los componentes del deployment"""
-        print("🚀 Inicializando deployment de TuneMetrics...")
+        print("Iniciando deployment de TuneMetrics...")
         
         try:
             # 1. Inicializar evaluador
-            print("  📊 Inicializando evaluador de modelos...")
+            print("  Inicializando evaluador de modelos...")
             self.evaluator = TuneMetricsModelEvaluator(self.models_dir)
             self.evaluator.load_trained_models()
             
             # 2. Inicializar pipeline de inferencia
-            print("  🔮 Inicializando pipeline de inferencia...")
+            print("  Inicializando pipeline de inferencia...")
             default_model = self.config.get('inference', {}).get('default_model', 'best')
             self.inference_pipeline = TuneMetricsInferencePipeline(
                 self.models_dir, 
@@ -105,7 +105,7 @@ class TuneMetricsDeploymentManager:
             
             # 3. Inicializar monitor de performance
             if self.config.get('monitoring', {}).get('enabled', True):
-                print("  📈 Inicializando monitor de performance...")
+                print("  Inicializando monitor de performance...")
                 self.performance_monitor = TuneMetricsPerformanceMonitor(
                     self.models_dir, 
                     self.config.get('monitoring', {})
@@ -114,18 +114,18 @@ class TuneMetricsDeploymentManager:
             
             # 4. Verificar estado de modelos
             model_info = self.inference_pipeline.get_model_info()
-            print(f"  ✅ Modelos disponibles: {model_info['available_models']}")
-            print(f"  ✅ Modelo por defecto: {model_info['default_model']}")
+            print(f"  Modelos disponibles: {model_info['available_models']}")
+            print(f"  Modelo por defecto: {model_info['default_model']}")
             
             self.deployment_status['initialized'] = True
             self.deployment_status['models_loaded'] = True
             self.deployment_status['last_health_check'] = datetime.now()
             
-            print("✅ Deployment inicializado exitosamente")
+            print("Deployment inicializado exitosamente")
             return True
             
         except Exception as e:
-            print(f"❌ Error inicializando deployment: {e}")
+            print(f"Error inicializando deployment: {e}")
             return False
     
     def run_comprehensive_evaluation(self, test_data_path: str = None) -> Dict:
@@ -138,7 +138,7 @@ class TuneMetricsDeploymentManager:
         Returns:
             Dict: Resultados de evaluación
         """
-        print("\n📊 Ejecutando evaluación comprehensiva...")
+        print("\nEjecutando evaluación comprehensiva...")
         
         if not self.evaluator:
             raise RuntimeError("Evaluador no inicializado")
@@ -147,7 +147,7 @@ class TuneMetricsDeploymentManager:
         if test_data_path is None:
             test_data_path = Path(self.data_dir) / "gold_data.parquet"
         
-        print(f"  📂 Cargando datos de test: {test_data_path}")
+        print(f"  Cargando datos de test: {test_data_path}")
         
         if str(test_data_path).endswith('.parquet'):
             test_data = pd.read_parquet(test_data_path)
@@ -159,7 +159,7 @@ class TuneMetricsDeploymentManager:
         if 'data_split' in test_data.columns:
             test_data = test_data[test_data['data_split'] == test_split]
         
-        print(f"  📈 Evaluando con {len(test_data)} canciones")
+        print(f"  Evaluando con {len(test_data)} canciones")
         
         # Ejecutar evaluación
         evaluation_results = self.evaluator.evaluate_on_new_data(test_data)
@@ -200,7 +200,7 @@ class TuneMetricsDeploymentManager:
             with open(results_dir / f"detailed_results_{timestamp}.json", 'w') as f:
                 json.dump(self._make_json_serializable(detailed_results), f, indent=2)
         
-        print(f"✅ Evaluación completada y guardada en {results_dir}")
+        print(f"Evaluación completada y guardada en {results_dir}")
         
         return {
             'evaluation_results': evaluation_results,
@@ -222,7 +222,7 @@ class TuneMetricsDeploymentManager:
         Returns:
             pd.DataFrame: Predicciones con insights de negocio
         """
-        print(f"\n🔮 Realizando predicciones de engagement para {len(input_data)} elementos...")
+        print(f"\nRealizando predicciones de engagement para {len(input_data)} elementos...")
         
         if not self.inference_pipeline:
             raise RuntimeError("Pipeline de inferencia no inicializado")
@@ -234,10 +234,10 @@ class TuneMetricsDeploymentManager:
         
         # Realizar predicciones según el tipo de datos
         if data_type == 'raw':
-            print("  🔄 Procesando datos raw de Spotify...")
+            print("  Procesando datos raw de Spotify...")
             predictions = self.inference_pipeline.predict_from_spotify_data(input_data)
         else:
-            print("  🔄 Usando features procesadas...")
+            print("  Usando features procesadas...")
             predictions = self.inference_pipeline.predict_batch(
                 input_data, 
                 include_features=True
@@ -247,7 +247,7 @@ class TuneMetricsDeploymentManager:
         if self.performance_monitor:
             self.performance_monitor.log_predictions(predictions)
         
-        print(f"✅ Predicciones completadas para {len(predictions)} canciones")
+        print(f"Predicciones completadas para {len(predictions)} canciones")
         
         return predictions
     
@@ -263,7 +263,7 @@ class TuneMetricsDeploymentManager:
         Returns:
             Dict: Resultados del monitoreo
         """
-        print("\n📈 Ejecutando ciclo de monitoreo...")
+        print("\nEjecutando ciclo de monitoreo...")
         
         if not self.performance_monitor:
             raise RuntimeError("Monitor de performance no inicializado")
@@ -282,7 +282,7 @@ class TuneMetricsDeploymentManager:
             else:
                 reference_features = reference_data.sample(frac=0.8)  # 80% como referencia
         else:
-            print("  ⚠️  No se encontraron datos de referencia para análisis de drift")
+            print("  No se encontraron datos de referencia para análisis de drift")
             reference_features = None
         
         # Ejecutar monitoreo completo
@@ -307,13 +307,13 @@ class TuneMetricsDeploymentManager:
         with open(monitoring_dir / f"monitoring_results_{timestamp}.json", 'w') as f:
             json.dump(self._make_json_serializable(monitoring_results), f, indent=2)
         
-        print(f"✅ Monitoreo completado y guardado en {monitoring_dir}")
+        print(f"Monitoreo completado y guardado en {monitoring_dir}")
         
         return monitoring_results
     
     def health_check(self) -> Dict:
         """Verifica el estado de salud del deployment"""
-        print("\n🩺 Ejecutando health check...")
+        print("\nEjecutando health check...")
         
         health_status = {
             'timestamp': datetime.now(),
@@ -384,7 +384,7 @@ class TuneMetricsDeploymentManager:
         # Actualizar timestamp de health check
         self.deployment_status['last_health_check'] = datetime.now()
         
-        print(f"✅ Health check completado - Estado: {health_status['overall_status']}")
+        print(f"Health check completado - Estado: {health_status['overall_status']}")
         
         return health_status
     
@@ -436,23 +436,23 @@ def main():
         manager = TuneMetricsDeploymentManager(args.config)
         
         if args.action == 'init':
-            print("🚀 Inicializando deployment...")
+            print("Inicializando deployment...")
             success = manager.initialize_deployment()
             if success:
-                print("✅ Deployment inicializado exitosamente")
+                print("Deployment inicializado exitosamente")
             else:
-                print("❌ Error inicializando deployment")
+                print("Error inicializando deployment")
                 return 1
         
         elif args.action == 'evaluate':
             manager.initialize_deployment()
-            print("📊 Ejecutando evaluación comprehensiva...")
+            print("Ejecutando evaluación comprehensiva...")
             results = manager.run_comprehensive_evaluation(args.input_data)
-            print("✅ Evaluación completada")
+            print("Evaluación completada")
         
         elif args.action == 'predict':
             if not args.input_data:
-                print("❌ Se requiere --input-data para predicciones")
+                print("Se requiere --input-data para predicciones")
                 return 1
             
             manager.initialize_deployment()
@@ -469,11 +469,11 @@ def main():
             # Guardar resultados
             output_file = args.output_file or f"predictions_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
             predictions.to_csv(output_file, index=False)
-            print(f"✅ Predicciones guardadas en {output_file}")
+            print(f"Predicciones guardadas en {output_file}")
         
         elif args.action == 'monitor':
             if not args.input_data:
-                print("❌ Se requiere --input-data para monitoreo")
+                print("Se requiere --input-data para monitoreo")
                 return 1
             
             manager.initialize_deployment()
@@ -486,13 +486,13 @@ def main():
             
             # Ejecutar monitoreo
             monitoring_results = manager.run_monitoring_cycle(current_data)
-            print("✅ Monitoreo completado")
+            print("Monitoreo completado")
         
         elif args.action == 'health':
             manager.initialize_deployment()
             health_status = manager.health_check()
             
-            print(f"\n🩺 ESTADO DE SALUD DEL DEPLOYMENT:")
+            print(f"\nESTADO DE SALUD DEL DEPLOYMENT:")
             print(f"Estado general: {health_status['overall_status']}")
             print(f"Alertas activas: {len(health_status['alerts'])}")
             
@@ -502,7 +502,7 @@ def main():
         return 0
         
     except Exception as e:
-        print(f"❌ Error ejecutando deployment manager: {e}")
+        print(f"Error ejecutando deployment manager: {e}")
         return 1
 
 if __name__ == "__main__":

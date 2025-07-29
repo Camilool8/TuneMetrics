@@ -61,7 +61,7 @@ class TuneMetricsModelTrainer:
         Args:
             data_path (str): Ruta al archivo de datos Gold
         """
-        print("🔄 Cargando datos Gold para modelado...")
+        print("Cargando datos Gold para modelado...")
         
         try:
             if data_path.endswith('.parquet'):
@@ -69,12 +69,12 @@ class TuneMetricsModelTrainer:
             else:
                 self.gold_data = pd.read_csv(data_path)
             
-            print(f"✅ Datos cargados: {len(self.gold_data):,} canciones")
-            print(f"  📊 Features disponibles: {len(self.gold_data.columns)}")
+            print(f"Datos cargados: {len(self.gold_data):,} canciones")
+            print(f"  Features disponibles: {len(self.gold_data.columns)}")
             
             # Verificar distribución de categorías
             category_dist = self.gold_data['engagement_category'].value_counts()
-            print("  📈 Distribución de engagement:")
+            print("  Distribución de engagement:")
             for category, count in category_dist.items():
                 percentage = (count / len(self.gold_data)) * 100
                 print(f"    {category}: {count:,} ({percentage:.1f}%)")
@@ -82,14 +82,14 @@ class TuneMetricsModelTrainer:
             return self.gold_data
             
         except Exception as e:
-            print(f"❌ Error cargando datos: {e}")
+            print(f"Error cargando datos: {e}")
             raise
     
     def prepare_features_and_splits(self):
         """
         Prepara features y splits temporales para modelado
         """
-        print("\n🔄 Preparando features y splits temporales...")
+        print("\nPreparando features y splits temporales...")
         
         # Definir features para modelado
         feature_columns = [
@@ -103,10 +103,10 @@ class TuneMetricsModelTrainer:
         missing_features = [col for col in feature_columns if col not in self.gold_data.columns]
         
         if missing_features:
-            print(f"  ⚠️  Features faltantes: {missing_features}")
+            print(f"  Features faltantes: {missing_features}")
         
         self.feature_names = available_features
-        print(f"  ✅ Features seleccionadas: {len(self.feature_names)}")
+        print(f"  Features seleccionadas: {len(self.feature_names)}")
         
         # Extraer features y target
         X = self.gold_data[self.feature_names].copy()
@@ -130,21 +130,21 @@ class TuneMetricsModelTrainer:
         self.X_test = X[test_mask]
         self.y_test = y_encoded[test_mask]
         
-        print(f"  📊 Train set: {len(self.X_train):,} canciones")
-        print(f"  📊 Validation set: {len(self.X_val):,} canciones")
-        print(f"  📊 Test set: {len(self.X_test):,} canciones")
+        print(f"  Train set: {len(self.X_train):,} canciones")
+        print(f"  Validation set: {len(self.X_val):,} canciones")
+        print(f"  Test set: {len(self.X_test):,} canciones")
         
         # Verificar distribución en cada split
         for split_name, y_split in [('Train', self.y_train), ('Val', self.y_val), ('Test', self.y_test)]:
             unique, counts = np.unique(y_split, return_counts=True)
             dist = {self.label_encoder.classes_[i]: count for i, count in zip(unique, counts)}
-            print(f"  📈 {split_name} distribution: {dist}")
+            print(f"  {split_name} distribution: {dist}")
         
         return self.X_train, self.y_train, self.X_val, self.y_val, self.X_test, self.y_test
     
     def train_random_forest(self):
         """Entrena modelo Random Forest con GridSearch"""
-        print("\n🌲 Entrenando Random Forest...")
+        print("\nEntrenando Random Forest...")
         
         # Parámetros para GridSearch
         param_grid = {
@@ -175,14 +175,14 @@ class TuneMetricsModelTrainer:
         best_rf = grid_search.best_estimator_
         self.models['random_forest'] = best_rf
         
-        print(f"  ✅ Mejores parámetros: {grid_search.best_params_}")
-        print(f"  ✅ Mejor score CV: {grid_search.best_score_:.4f}")
+        print(f"  Mejores parámetros: {grid_search.best_params_}")
+        print(f"  Mejor score CV: {grid_search.best_score_:.4f}")
         
         return best_rf
     
     def train_xgboost(self):
         """Entrena modelo XGBoost con GridSearch"""
-        print("\n🚀 Entrenando XGBoost...")
+        print("\nEntrenando XGBoost...")
         
         # Parámetros para GridSearch
         param_grid = {
@@ -217,14 +217,14 @@ class TuneMetricsModelTrainer:
         best_xgb = grid_search.best_estimator_
         self.models['xgboost'] = best_xgb
         
-        print(f"  ✅ Mejores parámetros: {grid_search.best_params_}")
-        print(f"  ✅ Mejor score CV: {grid_search.best_score_:.4f}")
+        print(f"  Mejores parámetros: {grid_search.best_params_}")
+        print(f"  Mejor score CV: {grid_search.best_score_:.4f}")
         
         return best_xgb
     
     def train_logistic_regression(self):
         """Entrena modelo de Regresión Logística"""
-        print("\n📊 Entrenando Regresión Logística...")
+        print("\nEntrenando Regresión Logística...")
         
         # Escalar features para Logistic Regression
         scaler = StandardScaler()
@@ -261,14 +261,14 @@ class TuneMetricsModelTrainer:
         best_lr = grid_search.best_estimator_
         self.models['logistic_regression'] = best_lr
         
-        print(f"  ✅ Mejores parámetros: {grid_search.best_params_}")
-        print(f"  ✅ Mejor score CV: {grid_search.best_score_:.4f}")
+        print(f"  Mejores parámetros: {grid_search.best_params_}")
+        print(f"  Mejor score CV: {grid_search.best_score_:.4f}")
         
         return best_lr
     
     def train_mlp(self):
         """Entrena modelo MLP (Red Neuronal)"""
-        print("\n🧠 Entrenando MLP (Red Neuronal)...")
+        print("\nEntrenando MLP (Red Neuronal)...")
         
         # Escalar features para MLP
         scaler = StandardScaler()
@@ -305,19 +305,19 @@ class TuneMetricsModelTrainer:
         best_mlp = grid_search.best_estimator_
         self.models['mlp'] = best_mlp
         
-        print(f"  ✅ Mejores parámetros: {grid_search.best_params_}")
-        print(f"  ✅ Mejor score CV: {grid_search.best_score_:.4f}")
+        print(f"  Mejores parámetros: {grid_search.best_params_}")
+        print(f"  Mejor score CV: {grid_search.best_score_:.4f}")
         
         return best_mlp
     
     def evaluate_models(self):
         """Evalúa todos los modelos en el conjunto de test"""
-        print("\n📊 Evaluando modelos en conjunto de test...")
+        print("\nEvaluando modelos en conjunto de test...")
         
         results = {}
         
         for model_name, model in self.models.items():
-            print(f"\n  🔍 Evaluando {model_name}...")
+            print(f"\n  Evaluando {model_name}...")
             
             # Preparar datos de test
             if model_name in ['logistic_regression', 'mlp']:
@@ -389,7 +389,7 @@ class TuneMetricsModelTrainer:
     
     def select_best_model(self):
         """Selecciona el mejor modelo basado en criterios definidos"""
-        print("\n🏆 Seleccionando mejor modelo...")
+        print("\nSeleccionando mejor modelo...")
         
         # Criterios de selección (pueden ser personalizados)
         criteria_weights = {
@@ -415,7 +415,7 @@ class TuneMetricsModelTrainer:
         best_model = self.models[best_model_name]
         best_score = model_scores[best_model_name]
         
-        print(f"\n  🥇 Mejor modelo: {best_model_name} (score: {best_score:.4f})")
+        print(f"\n  Mejor modelo: {best_model_name} (score: {best_score:.4f})")
         
         # Verificar criterios mínimos
         best_metrics = self.results[best_model_name]
@@ -428,9 +428,9 @@ class TuneMetricsModelTrainer:
         )
         
         if meets_criteria:
-            print(f"  ✅ Cumple criterios mínimos (Acc≥{min_accuracy}, F1≥{min_f1})")
+            print(f"  Cumple criterios mínimos (Acc≥{min_accuracy}, F1≥{min_f1})")
         else:
-            print(f"  ⚠️  No cumple criterios mínimos (Acc≥{min_accuracy}, F1≥{min_f1})")
+            print(f"  No cumple criterios mínimos (Acc≥{min_accuracy}, F1≥{min_f1})")
         
         return best_model_name, best_model, best_metrics
     
@@ -439,7 +439,7 @@ class TuneMetricsModelTrainer:
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
         
-        print(f"\n💾 Guardando modelos y resultados en {output_dir}...")
+        print(f"\nGuardando modelos y resultados en {output_dir}...")
         
         # Guardar modelos
         models_dir = output_path / "trained"
@@ -448,18 +448,18 @@ class TuneMetricsModelTrainer:
         for model_name, model in self.models.items():
             model_path = models_dir / f"{model_name}_model.pkl"
             joblib.dump(model, model_path)
-            print(f"  ✅ Modelo guardado: {model_path}")
+            print(f"  Modelo guardado: {model_path}")
         
         # Guardar scalers
         for scaler_name, scaler in self.scalers.items():
             scaler_path = models_dir / f"{scaler_name}_scaler.pkl"
             joblib.dump(scaler, scaler_path)
-            print(f"  ✅ Scaler guardado: {scaler_path}")
+            print(f"  Scaler guardado: {scaler_path}")
         
         # Guardar label encoder
         encoder_path = models_dir / "label_encoder.pkl"
         joblib.dump(self.label_encoder, encoder_path)
-        print(f"  ✅ Label encoder guardado: {encoder_path}")
+        print(f"  Label encoder guardado: {encoder_path}")
         
         # Guardar resultados
         metrics_dir = output_path / "metrics"
@@ -483,36 +483,36 @@ class TuneMetricsModelTrainer:
         metrics_path = metrics_dir / "model_metrics.json"
         with open(metrics_path, 'w') as f:
             json.dump(results_for_json, f, indent=2, cls=NumpyEncoder)
-        print(f"  ✅ Métricas guardadas: {metrics_path}")
+        print(f"  Métricas guardadas: {metrics_path}")
         
         # Guardar configuración
         config_path = output_path / "training_config.json"
         with open(config_path, 'w') as f:
             json.dump(self.config, f, indent=2)
-        print(f"  ✅ Configuración guardada: {config_path}")
+        print(f"  Configuración guardada: {config_path}")
     
     def generate_training_report(self):
         """Genera reporte completo del entrenamiento"""
         best_model_name, _, best_metrics = self.select_best_model()
         
         report = f"""
-🎵 TUNEMETRICS - REPORTE DE ENTRENAMIENTO DE MODELOS 🎵
+TUNEMETRICS - REPORTE DE ENTRENAMIENTO DE MODELOS
 {'='*70}
 
-📊 DATOS DE ENTRENAMIENTO:
+DATOS DE ENTRENAMIENTO:
 ├── Total de canciones: {len(self.gold_data):,}
 ├── Features utilizadas: {len(self.feature_names)}
 ├── Train set: {len(self.X_train):,} canciones
 ├── Validation set: {len(self.X_val):,} canciones
 └── Test set: {len(self.X_test):,} canciones
 
-🏆 MEJOR MODELO: {best_model_name.upper()}
+MEJOR MODELO: {best_model_name.upper()}
 ├── Accuracy: {best_metrics['accuracy']:.4f}
 ├── F1-Score (macro): {best_metrics['f1_macro']:.4f}
 ├── F1-Score (weighted): {best_metrics['f1_weighted']:.4f}
 └── AUC (OvR): {best_metrics.get('auc_ovr', 'N/A')}
 
-📈 COMPARACIÓN DE MODELOS:
+COMPARACIÓN DE MODELOS:
 """
         
         for model_name, metrics in self.results.items():
@@ -533,12 +533,12 @@ class TuneMetricsModelTrainer:
         
         report += f"""
 
-✅ CRITERIOS DE ÉXITO:
+CRITERIOS DE ÉXITO:
 ├── Accuracy mínima requerida: {min_accuracy}
 ├── F1-Score mínimo requerido: {min_f1}
 └── ¿Cumple criterios?: {'SÍ' if meets_criteria else 'NO'}
 
-🎯 FEATURES MÁS IMPORTANTES (Mejor modelo):
+FEATURES MÁS IMPORTANTES (Mejor modelo):
 """
         
         if 'feature_importance' in best_metrics:
@@ -552,17 +552,11 @@ class TuneMetricsModelTrainer:
         
         report += f"""
 
-🚀 MODELOS LISTOS PARA DEPLOYMENT:
+MODELOS PREPARADOS PARA DEPLOYMENT:
 ├── Modelos serializados (.pkl) guardados
 ├── Escaladores guardados
 ├── Configuración de entrenamiento guardada
 └── Métricas de evaluación guardadas
-
-📝 PRÓXIMOS PASOS:
-1. Validar modelos con datos reales de negocio
-2. Implementar pipeline de inferencia
-3. Crear dashboard de monitoreo
-4. Establecer proceso de reentrenamiento
         """
         
         return report
@@ -614,7 +608,7 @@ def main():
         with open("reports/training_report.txt", "w") as f:
             f.write(report)
         
-        print("\n✅ Entrenamiento de modelos completado exitosamente!")
+        print("\nEntrenamiento de modelos completado exitosamente!")
         
     except Exception as e:
         print(f"❌ Error en entrenamiento de modelos: {e}")

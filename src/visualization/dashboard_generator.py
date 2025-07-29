@@ -50,7 +50,7 @@ class TuneMetricsDashboardGenerator:
     
     def _load_data_sources(self):
         """Carga todas las fuentes de datos necesarias"""
-        print("📊 Cargando fuentes de datos para dashboard...")
+        print("Cargando fuentes de datos para dashboard...")
         
         # Cargar datos Gold (principales)
         if 'gold_data' in self.data_sources:
@@ -60,9 +60,9 @@ class TuneMetricsDashboardGenerator:
                     self.gold_data = pd.read_parquet(gold_path)
                 else:
                     self.gold_data = pd.read_csv(gold_path)
-                print(f"  ✅ Gold data: {len(self.gold_data)} canciones")
+                print(f"  Gold data: {len(self.gold_data)} canciones")
             else:
-                print(f"  ⚠️  Gold data no encontrado: {gold_path}")
+                print(f"  Gold data no encontrado: {gold_path}")
                 self.gold_data = pd.DataFrame()
         
         # Cargar predicciones recientes
@@ -70,9 +70,9 @@ class TuneMetricsDashboardGenerator:
             pred_path = self.data_sources['predictions']
             if Path(pred_path).exists():
                 self.predictions_data = pd.read_csv(pred_path)
-                print(f"  ✅ Predicciones: {len(self.predictions_data)} registros")
+                print(f"  Predicciones: {len(self.predictions_data)} registros")
             else:
-                print(f"  ⚠️  Predicciones no encontradas: {pred_path}")
+                print(f"  Predicciones no encontradas: {pred_path}")
                 self.predictions_data = pd.DataFrame()
         
         # Cargar métricas de modelos
@@ -81,14 +81,14 @@ class TuneMetricsDashboardGenerator:
             if Path(metrics_path).exists():
                 with open(metrics_path, 'r') as f:
                     self.models_metrics = json.load(f)
-                print(f"  ✅ Métricas de modelos: {len(self.models_metrics)} modelos")
+                print(f"  Métricas de modelos: {len(self.models_metrics)} modelos")
             else:
-                print(f"  ⚠️  Métricas no encontradas: {metrics_path}")
+                print(f"  Métricas no encontradas: {metrics_path}")
                 self.models_metrics = {}
     
     def create_executive_summary_data(self) -> Dict:
         """Crea datos para resumen ejecutivo de TuneMetrics"""
-        print("📈 Generando datos de resumen ejecutivo...")
+        print("Generando datos de resumen ejecutivo...")
         
         executive_data = {
             'timestamp': datetime.now().isoformat(),
@@ -153,7 +153,7 @@ class TuneMetricsDashboardGenerator:
     
     def create_engagement_analysis_data(self) -> Dict:
         """Crea datos para análisis detallado de engagement"""
-        print("🎯 Generando datos de análisis de engagement...")
+        print("Generando datos de análisis de engagement...")
         
         if self.gold_data.empty:
             return {'error': 'No hay datos Gold disponibles'}
@@ -215,7 +215,7 @@ class TuneMetricsDashboardGenerator:
     
     def create_business_kpis_data(self) -> Dict:
         """Crea KPIs de negocio para TuneMetrics"""
-        print("💼 Generando KPIs de negocio...")
+        print("Generando KPIs de negocio...")
         
         if self.gold_data.empty:
             return {'error': 'No hay datos disponibles para KPIs'}
@@ -299,7 +299,7 @@ class TuneMetricsDashboardGenerator:
     
     def create_model_performance_data(self) -> Dict:
         """Crea datos de performance de modelos para dashboard técnico"""
-        print("🤖 Generando datos de performance de modelos...")
+        print("Generando datos de performance de modelos...")
         
         if not self.models_metrics:
             return {'error': 'No hay métricas de modelos disponibles'}
@@ -348,7 +348,7 @@ class TuneMetricsDashboardGenerator:
     
     def create_time_series_data(self) -> Dict:
         """Crea datos de series temporales para análisis de tendencias"""
-        print("📅 Generando datos de series temporales...")
+        print("Generando datos de series temporales...")
         
         if self.gold_data.empty or 'year_min' not in self.gold_data.columns:
             return {'error': 'No hay datos temporales disponibles'}
@@ -400,7 +400,7 @@ class TuneMetricsDashboardGenerator:
     
     def generate_looker_studio_datasets(self, output_dir: str) -> Dict:
         """Genera todos los datasets optimizados para Looker Studio"""
-        print("📊 Generando datasets para Looker Studio...")
+        print("Generando datasets para Looker Studio...")
         
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
@@ -465,17 +465,17 @@ class TuneMetricsDashboardGenerator:
                 looker_main_data.to_csv(main_data_file, index=False)
                 datasets_created['main_data'] = str(main_data_file)
             
-            print(f"✅ {len(datasets_created)} datasets creados para Looker Studio")
+            print(f"Datasets creados: {len(datasets_created)}")
             
         except Exception as e:
-            print(f"❌ Error generando datasets: {e}")
+            print(f"Error generando datasets: {e}")
             datasets_created['error'] = str(e)
         
         return datasets_created
     
     def create_static_visualizations(self, output_dir: str) -> Dict:
         """Crea visualizaciones estáticas para reportes"""
-        print("📈 Creando visualizaciones estáticas...")
+        print("Creando visualizaciones estáticas...")
         
         if self.gold_data.empty:
             return {'error': 'No hay datos para visualizar'}
@@ -593,7 +593,7 @@ class TuneMetricsDashboardGenerator:
         plt.close()
         visualizations_created['detailed_analysis'] = str(detailed_analysis_file)
         
-        print(f"✅ {len(visualizations_created)} visualizaciones creadas")
+        print(f"Visualizaciones creadas: {len(visualizations_created)}")
         
         return visualizations_created
     
@@ -689,11 +689,11 @@ def main():
         
         # Generar datasets para Looker Studio
         datasets = dashboard_generator.generate_looker_studio_datasets(dashboard_output_dir)
-        print(f"\n📊 Datasets generados: {list(datasets.keys())}")
+        print(f"\nDatasets generados: {list(datasets.keys())}")
         
         # Crear visualizaciones estáticas
         visualizations = dashboard_generator.create_static_visualizations(visualizations_output_dir)
-        print(f"📈 Visualizaciones creadas: {list(visualizations.keys())}")
+        print(f"Visualizaciones creadas: {list(visualizations.keys())}")
         
         # Generar configuración para Looker Studio
         looker_config = dashboard_generator.generate_dashboard_config_for_looker()
@@ -703,14 +703,14 @@ def main():
         with open(config_file, 'w') as f:
             json.dump(looker_config, f, indent=2)
         
-        print(f"\n✅ Dashboard completo generado!")
-        print(f"📁 Datasets: {dashboard_output_dir}")
-        print(f"📁 Visualizaciones: {visualizations_output_dir}")
-        print(f"⚙️  Configuración Looker: {config_file}")
+        print(f"\nDashboard completo generado!")
+        print(f"Datasets: {dashboard_output_dir}")
+        print(f"Visualizaciones: {visualizations_output_dir}")
+        print(f"Configuración Looker: {config_file}")
         
         # Instrucciones para Looker Studio
         print(f"""
-🔧 INSTRUCCIONES PARA LOOKER STUDIO:
+INSTRUCCIONES PARA LOOKER STUDIO:
 1. Subir main_engagement_data.csv como fuente de datos principal
 2. Usar archivos JSON para scorecards y métricas específicas
 3. Aplicar esquema de colores sugerido en looker_studio_config.json
@@ -719,7 +719,7 @@ def main():
         """)
         
     except Exception as e:
-        print(f"❌ Error generando dashboard: {e}")
+        print(f"Error generando dashboard: {e}")
         raise
 
 if __name__ == "__main__":

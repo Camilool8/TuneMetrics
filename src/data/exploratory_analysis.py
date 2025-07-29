@@ -266,13 +266,6 @@ MÉTRICAS CLAVE PARA MODELO DE ENGAGEMENT:
     ├── Features principales: completion_rate, skip_resistance, context_preference
     ├── Split temporal: 2013-2022 (train), 2023 (val), 2024 (test)
     └── Agregación objetivo: ~{total_tracks:,} canciones para modelado
-
-PRÓXIMOS PASOS:
-1. Implementar pipeline Bronze → Silver → Gold
-2. Crear métricas de engagement compuestas
-3. Agregar datos por canción
-4. Entrenar modelos de clasificación
-5. Evaluar performance y interpretabilidad
         """
         
         print(report)
@@ -303,10 +296,10 @@ def main():
         with open("reports/eda_summary_report.txt", "w") as f:
             f.write(report)
         
-        print("\n✅ Análisis exploratorio completado exitosamente!")
+        print("\nAnálisis exploratorio completado exitosamente!")
         
     except Exception as e:
-        print(f"❌ Error en análisis exploratorio: {e}")
+        print(f"Error en análisis exploratorio: {e}")
         raise
 
 if __name__ == "__main__":

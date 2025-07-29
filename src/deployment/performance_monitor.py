@@ -65,7 +65,7 @@ class TuneMetricsPerformanceMonitor:
             with open(metrics_path, 'r') as f:
                 return json.load(f)
         else:
-            print("⚠️  No se encontraron métricas baseline")
+            print("No se encontraron métricas baseline")
             return {}
     
     def log_predictions(self, predictions: pd.DataFrame, 
@@ -103,7 +103,7 @@ class TuneMetricsPerformanceMonitor:
         if self.config.get('save_monitoring_data'):
             self._save_monitoring_log(pred_stats, 'predictions')
         
-        print(f"📊 Predicciones registradas: {len(predictions)} canciones")
+        print(f"Predicciones registradas: {len(predictions)} canciones")
     
     def _calculate_performance_metrics(self, predictions: pd.DataFrame, 
                                      ground_truth: pd.DataFrame) -> Dict:
@@ -141,10 +141,10 @@ class TuneMetricsPerformanceMonitor:
         Returns:
             Dict: Resultados del análisis de drift
         """
-        print("🔍 Analizando drift en datos...")
+        print("Analizando drift en datos...")
         
         if reference_features is None:
-            print("⚠️  No hay datos de referencia para comparar drift")
+            print("No hay datos de referencia para comparar drift")
             return {'error': 'No reference data available'}
         
         drift_results = {
@@ -179,9 +179,9 @@ class TuneMetricsPerformanceMonitor:
         self.data_drift_history.append(drift_results)
         
         if drift_results['drift_detected']:
-            print(f"⚠️  Drift detectado en {len(drift_results['features_with_drift'])} features")
+            print(f"Drift detectado en {len(drift_results['features_with_drift'])} features")
         else:
-            print("✅ No se detectó drift significativo")
+            print("No se detectó drift significativo")
         
         return drift_results
     
@@ -222,7 +222,7 @@ class TuneMetricsPerformanceMonitor:
         Returns:
             Dict: Análisis de degradación
         """
-        print(f"📉 Verificando degradación de performance para {model_name}...")
+        print(f"Verificando degradación de performance para {model_name}...")
         
         # Filtrar historial por modelo
         model_history = [
@@ -282,9 +282,9 @@ class TuneMetricsPerformanceMonitor:
         self.performance_history.append(degradation_analysis)
         
         if degradation_analysis['degradation_detected']:
-            print(f"⚠️  Degradación detectada: Accuracy bajó {accuracy_drop:.3f}")
+            print(f"Degradación detectada: Accuracy bajó {accuracy_drop:.3f}")
         else:
-            print("✅ Performance estable")
+            print("Performance estable")
         
         return degradation_analysis
     
@@ -395,7 +395,7 @@ class TuneMetricsPerformanceMonitor:
         Returns:
             Dict: Resumen completo del monitoreo
         """
-        print("🔄 Ejecutando ciclo completo de monitoreo...")
+        print("Ejecutando ciclo completo de monitoreo...")
         
         monitoring_results = {
             'timestamp': datetime.now(),
@@ -429,12 +429,12 @@ class TuneMetricsPerformanceMonitor:
             dashboard_data = self.create_monitoring_dashboard_data()
             monitoring_results['dashboard_data'] = dashboard_data
             
-            print(f"✅ Monitoreo completado - {len(alerts)} alertas generadas")
+            print(f"Monitoreo completado - {len(alerts)} alertas generadas")
             
         except Exception as e:
             monitoring_results['monitoring_status'] = 'error'
             monitoring_results['error'] = str(e)
-            print(f"❌ Error en monitoreo: {e}")
+            print(f"Error en monitoreo: {e}")
         
         return monitoring_results
     
@@ -526,10 +526,10 @@ def main():
         # Inicializar monitor
         monitor = TuneMetricsPerformanceMonitor("models")
         
-        print("📊 Monitor de Performance TuneMetrics inicializado")
+        print("Monitor de Performance TuneMetrics inicializado")
         
         # Simular datos de predicciones
-        print("\n🎵 Simulando monitoreo de predicciones...")
+        print("\nSimulando monitoreo de predicciones...")
         
         sample_predictions = pd.DataFrame({
             'spotify_track_uri': [f'track_{i}' for i in range(100)],
@@ -546,7 +546,7 @@ def main():
         monitor.log_predictions(sample_predictions, sample_ground_truth, 'random_forest')
         
         # Simular features para análisis de drift
-        print("\n🔍 Simulando análisis de drift...")
+        print("\nSimulando análisis de drift...")
         
         reference_features = pd.DataFrame({
             'completion_rate_score': np.random.normal(0.6, 0.2, 1000),
@@ -564,11 +564,11 @@ def main():
         drift_results = monitor.monitor_data_drift(current_features, reference_features)
         
         # Verificar degradación de performance
-        print("\n📉 Verificando degradación de performance...")
+        print("\nVerificando degradación de performance...")
         degradation_results = monitor.check_performance_degradation('random_forest')
         
         # Generar alertas
-        print("\n🚨 Generando alertas...")
+        print("\nGenerando alertas...")
         alerts = monitor.generate_monitoring_alerts()
         print(f"Alertas generadas: {len(alerts)}")
         
@@ -586,7 +586,7 @@ def main():
         print("\n✅ Monitor de performance funcionando correctamente!")
         
     except Exception as e:
-        print(f"❌ Error en monitor de performance: {e}")
+        print(f"Error en monitor de performance: {e}")
         raise
 
 if __name__ == "__main__":

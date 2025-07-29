@@ -1,18 +1,18 @@
 
-🎵 TUNEMETRICS - REPORTE DE EVALUACIÓN DE MODELOS 🎵
+TUNEMETRICS - REPORTE DE EVALUACIÓN DE MODELOS
 ======================================================================
 
-📊 MODELOS EVALUADOS:
+MODELOS EVALUADOS:
 ├── Modelos cargados: 4
 ├── Features utilizadas: 11
 └── Datos evaluados: 1033 predicciones
 
-🏆 RENDIMIENTO GENERAL:
+RENDIMIENTO GENERAL:
 ├── Mejor Accuracy: logistic_regression (0.9990)
 ├── Mejor F1-Macro: logistic_regression (0.9992)
 └── Promedio Accuracy: 0.9937
 
-📈 MÉTRICAS DETALLADAS:
+MÉTRICAS DETALLADAS:
 
 RANDOM_FOREST:
   ├── Accuracy: 0.9855
@@ -39,7 +39,7 @@ MLP:
   ├── Precision: 0.9990
   └── Recall: 0.9990
 
-🎯 ANÁLISIS DE CONFIANZA:
+ANÁLISIS DE CONFIANZA:
 
 RANDOM_FOREST:
   ├── Confianza promedio: 0.938
@@ -58,7 +58,7 @@ MLP:
   ├── Predicciones baja confianza: 2
   └── Predicciones alta confianza: 1024
 
-🎯 FEATURES MÁS IMPORTANTES:
+FEATURES MÁS IMPORTANTES:
 
 RANDOM_FOREST:
   1. context_preference_score: 0.3988
@@ -78,4 +78,10 @@ LOGISTIC_REGRESSION:
   3. skip_resistance_score: 39.9761
   4. consistency_score: 9.2011
   5. platform_appeal_score: 7.3295
+
+CONCLUSIONES Y RECOMENDACIONES:
+├── Modelos preparados para deployment
+├── Pipeline de inferencia listo
+├── Métricas de monitoreo establecidas
+└── Validación de performance completada
         

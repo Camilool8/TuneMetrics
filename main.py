@@ -115,7 +115,7 @@ class TuneMetricsPipelineRunner:
             step_function: Función a ejecutar
             *args, **kwargs: Argumentos para la función
         """
-        logger.info(f"🔄 Iniciando paso: {step_name}")
+        logger.info(f"Iniciando paso: {step_name}")
         self.pipeline_status['current_step'] = step_name
         
         try:
@@ -130,7 +130,7 @@ class TuneMetricsPipelineRunner:
                 'completed_at': end_time.isoformat()
             })
             
-            logger.info(f"✅ {step_name} completado en {duration}s")
+            logger.info(f"{step_name} completado en {duration}s")
             return result
             
         except Exception as e:
@@ -139,7 +139,7 @@ class TuneMetricsPipelineRunner:
                 'error': str(e),
                 'failed_at': datetime.now().isoformat()
             })
-            logger.error(f"❌ Error en {step_name}: {e}")
+            logger.error(f"Error en {step_name}: {e}")
             raise
     
     def step_1_exploratory_analysis(self):
@@ -389,7 +389,7 @@ class TuneMetricsPipelineRunner:
         Args:
             steps (list): Lista de pasos a ejecutar (None = todos)
         """
-        logger.info("🚀 Iniciando pipeline completo de TuneMetrics")
+        logger.info("Iniciando pipeline completo de TuneMetrics")
         logger.info(f"Proyecto: {self.config['project']['name']} v{self.config['project']['version']}")
         
         # Definir todos los pasos disponibles
@@ -413,7 +413,7 @@ class TuneMetricsPipelineRunner:
         successful_steps = 0
         
         for i, (step_code, step_name, step_function) in enumerate(steps_to_run, 1):
-            logger.info(f"📋 Paso {i}/{total_steps}: {step_name}")
+            logger.info(f"Paso {i}/{total_steps}: {step_name}")
             
             try:
                 success = self.run_step(step_name, step_function)
@@ -440,7 +440,7 @@ class TuneMetricsPipelineRunner:
         ).seconds
         
         logger.info("="*60)
-        logger.info("🎵 PIPELINE TUNEMETRICS COMPLETADO 🎵")
+        logger.info("PIPELINE TUNEMETRICS COMPLETADO")
         logger.info("="*60)
         logger.info(f"Pasos exitosos: {successful_steps}/{total_steps}")
         logger.info(f"Duración total: {self.pipeline_status['total_duration']}s")
@@ -455,31 +455,16 @@ class TuneMetricsPipelineRunner:
         with open(pipeline_summary_file, 'w') as f:
             json.dump(self.pipeline_status, f, indent=2, default=str)
         
-        logger.info(f"📄 Resumen guardado en {pipeline_summary_file}")
+        logger.info(f"Resumen guardado en {pipeline_summary_file}")
         
-        # Mostrar siguientes pasos
+        # Resumen final
         if successful_steps == total_steps:
-            logger.info("""
-✅ PIPELINE COMPLETADO EXITOSAMENTE!
-
-📋 PRÓXIMOS PASOS RECOMENDADOS:
-1. Revisar reportes generados en reports/
-2. Configurar dashboard en Looker Studio usando dashboard_data/
-3. Usar deployment para hacer predicciones en nuevos datos
-4. Configurar monitoreo continuo de performance
-
-🚀 COMANDO PARA USAR MODELOS:
-python src/deployment/deployment_manager.py --action predict --input-data your_data.csv
-            """)
+            logger.info("Pipeline completado exitosamente")
+            logger.info("Reportes disponibles en directorio reports/")
+            logger.info("Modelos listos para deployment")
         else:
-            logger.info("""
-⚠️  PIPELINE COMPLETADO CON ALGUNOS ERRORES
-
-📋 REVISA:
-1. Logs en tunemetrics_pipeline.log
-2. Reportes de pasos completados en reports/
-3. Errores específicos arriba para resolución
-            """)
+            logger.info("Pipeline completado con errores")
+            logger.info("Revisar logs para detalles de errores")
         
         return successful_steps == total_steps
 
@@ -500,10 +485,10 @@ def main():
         runner = TuneMetricsPipelineRunner(args.config)
         
         if args.validate_setup:
-            logger.info("🔍 Validando configuración y estructura...")
-            logger.info(f"✅ Configuración cargada: {runner.config['project']['name']}")
-            logger.info("✅ Estructura de directorios verificada")
-            logger.info("✅ Setup válido - listo para ejecutar pipeline")
+            logger.info("Validando configuración y estructura...")
+            logger.info(f"Configuración cargada: {runner.config['project']['name']}")
+            logger.info("Estructura de directorios verificada")
+            logger.info("Setup válido - listo para ejecutar pipeline")
             return 0
         
         # Ejecutar pipeline
@@ -512,10 +497,10 @@ def main():
         return 0 if success else 1
         
     except KeyboardInterrupt:
-        logger.info("\n⏹️  Pipeline interrumpido por el usuario")
+        logger.info("\nPipeline interrumpido por el usuario")
         return 1
     except Exception as e:
-        logger.error(f"❌ Error crítico en pipeline: {e}")
+        logger.error(f"Error crítico en pipeline: {e}")
         return 1
 
 if __name__ == "__main__":

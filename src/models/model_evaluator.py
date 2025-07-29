@@ -40,7 +40,7 @@ class TuneMetricsModelEvaluator:
         
     def load_trained_models(self):
         """Carga todos los modelos entrenados y sus componentes"""
-        print("🔄 Cargando modelos entrenados...")
+        print("Cargando modelos entrenados...")
         
         trained_dir = self.models_dir / "trained"
         if not trained_dir.exists():
@@ -59,10 +59,10 @@ class TuneMetricsModelEvaluator:
             model_path = trained_dir / filename
             if model_path.exists():
                 self.models[model_name] = joblib.load(model_path)
-                print(f"  ✅ {model_name} cargado")
+                print(f"  {model_name} cargado")
                 loaded_models += 1
             else:
-                print(f"  ⚠️  {model_name} no encontrado")
+                print(f"  {model_name} no encontrado")
         
         # Cargar scalers
         scaler_files = {
@@ -74,22 +74,22 @@ class TuneMetricsModelEvaluator:
             scaler_path = trained_dir / filename
             if scaler_path.exists():
                 self.scalers[scaler_name] = joblib.load(scaler_path)
-                print(f"  ✅ Scaler {scaler_name} cargado")
+                print(f"  Scaler {scaler_name} cargado")
         
         # Cargar label encoder
         encoder_path = trained_dir / "label_encoder.pkl"
         if encoder_path.exists():
             self.label_encoder = joblib.load(encoder_path)
-            print(f"  ✅ Label encoder cargado")
+            print(f"  Label encoder cargado")
         
         # Cargar métricas previas si existen
         metrics_path = self.models_dir / "metrics" / "model_metrics.json"
         if metrics_path.exists():
             with open(metrics_path, 'r') as f:
                 self.previous_metrics = json.load(f)
-            print(f"  ✅ Métricas previas cargadas")
+            print(f"  Métricas previas cargadas")
         
-        print(f"✅ {loaded_models} modelos cargados exitosamente")
+        print(f"{loaded_models} modelos cargados exitosamente")
         return self.models
     
     def evaluate_on_new_data(self, test_data: pd.DataFrame, 
@@ -103,7 +103,7 @@ class TuneMetricsModelEvaluator:
             feature_columns (list): Columnas de features a usar
             target_column (str): Columna objetivo
         """
-        print("\n📊 Evaluando modelos en nuevos datos...")
+        print("\nEvaluando modelos en nuevos datos...")
         
         if feature_columns is None:
             feature_columns = [
@@ -117,10 +117,10 @@ class TuneMetricsModelEvaluator:
         missing_features = [col for col in feature_columns if col not in test_data.columns]
         
         if missing_features:
-            print(f"  ⚠️  Features faltantes: {missing_features}")
+            print(f"  Features faltantes: {missing_features}")
         
         self.feature_names = available_features
-        print(f"  📈 Features utilizadas: {len(self.feature_names)}")
+        print(f"  Features utilizadas: {len(self.feature_names)}")
         
         # Preparar datos
         X_test = test_data[self.feature_names].fillna(test_data[self.feature_names].median())
@@ -130,14 +130,14 @@ class TuneMetricsModelEvaluator:
             y_test_encoded = self.label_encoder.transform(y_test)
             has_ground_truth = True
         else:
-            print("  ⚠️  No hay ground truth disponible, solo se harán predicciones")
+            print("  No hay ground truth disponible, solo se harán predicciones")
             has_ground_truth = False
         
         # Evaluar cada modelo
         results = {}
         
         for model_name, model in self.models.items():
-            print(f"\n  🔍 Evaluando {model_name}...")
+            print(f"\n  Evaluando {model_name}...")
             
             # Preparar datos según el modelo
             if model_name in self.scalers:
@@ -206,7 +206,7 @@ class TuneMetricsModelEvaluator:
     
     def analyze_feature_importance(self):
         """Analiza la importancia de features en los modelos"""
-        print("\n🎯 Analizando importancia de features...")
+        print("\nAnalizando importancia de features...")
         
         feature_importance_data = {}
         
@@ -215,7 +215,7 @@ class TuneMetricsModelEvaluator:
                 importance = model.feature_importances_
                 feature_importance_data[model_name] = dict(zip(self.feature_names, importance))
                 
-                print(f"\n  📊 {model_name} - Top 5 features:")
+                print(f"\n  {model_name} - Top 5 features:")
                 top_features = sorted(
                     zip(self.feature_names, importance), 
                     key=lambda x: x[1], reverse=True
@@ -229,7 +229,7 @@ class TuneMetricsModelEvaluator:
                 coef = np.abs(model.coef_).mean(axis=0)  # Promedio de coeficientes absolutos
                 feature_importance_data[model_name] = dict(zip(self.feature_names, coef))
                 
-                print(f"\n  📊 {model_name} - Top 5 features (coeficientes):")
+                print(f"\n  {model_name} - Top 5 features (coeficientes):")
                 top_features = sorted(
                     zip(self.feature_names, coef), 
                     key=lambda x: x[1], reverse=True
@@ -242,7 +242,7 @@ class TuneMetricsModelEvaluator:
     
     def analyze_prediction_confidence(self):
         """Analiza la confianza de las predicciones"""
-        print("\n🎯 Analizando confianza de predicciones...")
+        print("\nAnalizando confianza de predicciones...")
         
         confidence_analysis = {}
         
@@ -265,7 +265,7 @@ class TuneMetricsModelEvaluator:
             
             confidence_analysis[model_name] = confidence_stats
             
-            print(f"\n  📊 {model_name}:")
+            print(f"\n  {model_name}:")
             print(f"    Confianza promedio: {confidence_stats['mean_confidence']:.3f}")
             print(f"    Predicciones de baja confianza (<0.6): {confidence_stats['low_confidence_count']}")
             print(f"    Predicciones de alta confianza (>0.8): {confidence_stats['high_confidence_count']}")
@@ -274,10 +274,10 @@ class TuneMetricsModelEvaluator:
     
     def compare_models_performance(self):
         """Compara el rendimiento de todos los modelos"""
-        print("\n📊 Comparando rendimiento de modelos...")
+        print("\nComparando rendimiento de modelos...")
         
         if not self.evaluation_results:
-            print("  ⚠️  No hay resultados de evaluación disponibles")
+            print("  No hay resultados de evaluación disponibles")
             return None
         
         # Crear DataFrame de comparación
@@ -296,17 +296,17 @@ class TuneMetricsModelEvaluator:
                 })
         
         if not comparison_data:
-            print("  ⚠️  No hay métricas para comparar")
+            print("  No hay métricas para comparar")
             return None
         
         comparison_df = pd.DataFrame(comparison_data)
         
-        print("\n  📈 Ranking por Accuracy:")
+        print("\n  Ranking por Accuracy:")
         ranking = comparison_df.sort_values('Accuracy', ascending=False)
         for i, row in ranking.iterrows():
             print(f"    {row.name + 1}. {row['Model']}: {row['Accuracy']:.4f}")
         
-        print("\n  📈 Ranking por F1-Macro:")
+        print("\n  Ranking por F1-Macro:")
         ranking = comparison_df.sort_values('F1_Macro', ascending=False)
         for i, row in ranking.iterrows():
             print(f"    {row.name + 1}. {row['Model']}: {row['F1_Macro']:.4f}")
@@ -315,7 +315,7 @@ class TuneMetricsModelEvaluator:
     
     def create_evaluation_visualizations(self, save_dir: str = None):
         """Crea visualizaciones completas de la evaluación"""
-        print("\n📊 Creando visualizaciones de evaluación...")
+        print("\nCreando visualizaciones de evaluación...")
         
         if save_dir:
             save_path = Path(save_dir)
@@ -428,7 +428,7 @@ class TuneMetricsModelEvaluator:
             plt.savefig(save_path / "prediction_confidence.png", dpi=300, bbox_inches='tight')
         plt.show()
         
-        print(f"✅ Visualizaciones creadas" + (f" y guardadas en {save_dir}" if save_dir else ""))
+        print(f"Visualizaciones creadas" + (f" y guardadas en {save_dir}" if save_dir else ""))
     
     def validate_model_stability(self, validation_data: pd.DataFrame):
         """Valida la estabilidad de los modelos con datos de validación"""
@@ -487,7 +487,7 @@ class TuneMetricsModelEvaluator:
     
     def generate_evaluation_report(self, output_path: str = None):
         """Genera reporte completo de evaluación"""
-        print("\n📋 Generando reporte de evaluación...")
+        print("\nGenerando reporte de evaluación...")
         
         # Análisis de importancia de features
         feature_importance = self.analyze_feature_importance()
@@ -499,15 +499,15 @@ class TuneMetricsModelEvaluator:
         comparison_df = self.compare_models_performance()
         
         report = f"""
-🎵 TUNEMETRICS - REPORTE DE EVALUACIÓN DE MODELOS 🎵
+TUNEMETRICS - REPORTE DE EVALUACIÓN DE MODELOS
 {'='*70}
 
-📊 MODELOS EVALUADOS:
+MODELOS EVALUADOS:
 ├── Modelos cargados: {len(self.models)}
 ├── Features utilizadas: {len(self.feature_names)}
 └── Datos evaluados: {len(list(self.evaluation_results.values())[0].get('predictions', [])) if self.evaluation_results else 0} predicciones
 
-🏆 RENDIMIENTO GENERAL:
+RENDIMIENTO GENERAL:
 """
         
         if comparison_df is not None:
@@ -518,7 +518,7 @@ class TuneMetricsModelEvaluator:
 ├── Mejor F1-Macro: {best_f1['Model']} ({best_f1['F1_Macro']:.4f})
 └── Promedio Accuracy: {comparison_df['Accuracy'].mean():.4f}
 
-📈 MÉTRICAS DETALLADAS:
+MÉTRICAS DETALLADAS:
 """
             for _, row in comparison_df.iterrows():
                 report += f"""
@@ -532,7 +532,7 @@ class TuneMetricsModelEvaluator:
         # Análisis de confianza
         report += f"""
 
-🎯 ANÁLISIS DE CONFIANZA:
+ANÁLISIS DE CONFIANZA:
 """
         for model_name, conf_stats in confidence_analysis.items():
             report += f"""
@@ -544,7 +544,7 @@ class TuneMetricsModelEvaluator:
         # Features más importantes
         report += f"""
 
-🎯 FEATURES MÁS IMPORTANTES:
+FEATURES MÁS IMPORTANTES:
 """
         for model_name, importance_dict in feature_importance.items():
             if importance_dict:
@@ -557,23 +557,17 @@ class TuneMetricsModelEvaluator:
         
         report += f"""
 
-✅ CONCLUSIONES Y RECOMENDACIONES:
-├── Modelos listos para deployment
-├── Pipeline de inferencia implementado
+CONCLUSIONES Y RECOMENDACIONES:
+├── Modelos preparados para deployment
+├── Pipeline de inferencia listo
 ├── Métricas de monitoreo establecidas
-└── Validación de estabilidad completada
-
-📝 PRÓXIMOS PASOS:
-1. Implementar monitoreo en producción
-2. Establecer thresholds de alerta
-3. Programar reentrenamiento automático
-4. Crear dashboard de monitoreo en tiempo real
+└── Validación de performance completada
         """
         
         if output_path:
             with open(output_path, 'w') as f:
                 f.write(report)
-            print(f"✅ Reporte guardado en: {output_path}")
+            print(f"Reporte guardado en: {output_path}")
         
         return report
 
@@ -619,7 +613,7 @@ def main():
         report = evaluator.generate_evaluation_report(f"{output_dir}/model_evaluation_report.txt")
         print(report)
         
-        print("\n✅ Evaluación de modelos completada exitosamente!")
+        print("\nEvaluación de modelos completada exitosamente!")
         
     except Exception as e:
         print(f"❌ Error en evaluación de modelos: {e}")

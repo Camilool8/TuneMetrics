@@ -1,21 +1,21 @@
 
-🎵 TUNEMETRICS - REPORTE DE ENTRENAMIENTO DE MODELOS 🎵
+TUNEMETRICS - REPORTE DE ENTRENAMIENTO DE MODELOS
 ======================================================================
 
-📊 DATOS DE ENTRENAMIENTO:
+DATOS DE ENTRENAMIENTO:
 ├── Total de canciones: 16,527
 ├── Features utilizadas: 11
 ├── Train set: 14,030 canciones
 ├── Validation set: 1,464 canciones
 └── Test set: 1,033 canciones
 
-🏆 MEJOR MODELO: LOGISTIC_REGRESSION
+MEJOR MODELO: LOGISTIC_REGRESSION
 ├── Accuracy: 0.9990
 ├── F1-Score (macro): 0.9992
 ├── F1-Score (weighted): 0.9990
 └── AUC (OvR): 0.9999987152903573
 
-📈 COMPARACIÓN DE MODELOS:
+COMPARACIÓN DE MODELOS:
 
 RANDOM_FOREST:
   ├── Accuracy: 0.9855
@@ -34,8 +34,17 @@ MLP:
   ├── F1-macro: 0.9992
   └── F1-weighted: 0.9990
 
-✅ CRITERIOS DE ÉXITO:
+CRITERIOS DE ÉXITO:
 ├── Accuracy mínima requerida: 0.85
 ├── F1-Score mínimo requerido: 0.8
 └── ¿Cumple criterios?: SÍ
+
+FEATURES MÁS IMPORTANTES (Mejor modelo):
+
+
+MODELOS PREPARADOS PARA DEPLOYMENT:
+├── Modelos serializados (.pkl) guardados
+├── Escaladores guardados
+├── Configuración de entrenamiento guardada
+└── Métricas de evaluación guardadas
         

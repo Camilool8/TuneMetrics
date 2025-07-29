@@ -1,0 +1,8 @@
+2025-07-29 13:50:38,729 - INFO - Configuración cargada desde configs/config.yaml
+2025-07-29 13:50:38,729 - INFO - Estructura de directorios verificada
+2025-07-29 13:50:43,080 - INFO - EDA completado - Reporte guardado en reports/eda_summary_report.txt
+2025-07-29 13:50:43,820 - INFO - Procesamiento completado - Datos guardados en data/processed/
+2025-07-29 13:52:33,101 - INFO - Entrenamiento completado - Modelos guardados en models/
+2025-07-29 13:52:48,722 - INFO - Evaluación completada - Reporte guardado en reports/model_evaluation_report.txt
+2025-07-29 13:52:49,573 - INFO - Dashboard generado - Datasets: dashboard_data/
+2025-07-29 13:52:49,615 - INFO - Deployment configurado - Estado: reports/deployment_status.json
