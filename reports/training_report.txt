@@ -38,13 +38,4 @@ MLP:
 ├── Accuracy mínima requerida: 0.85
 ├── F1-Score mínimo requerido: 0.8
 └── ¿Cumple criterios?: SÍ
-
-🎯 FEATURES MÁS IMPORTANTES (Mejor modelo):
-
-
-🚀 MODELOS LISTOS PARA DEPLOYMENT:
-├── Modelos serializados (.pkl) guardados
-├── Escaladores guardados
-├── Configuración de entrenamiento guardada
-└── Métricas de evaluación guardadas
         

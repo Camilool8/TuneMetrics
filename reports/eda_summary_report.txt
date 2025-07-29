@@ -19,11 +19,4 @@ MÉTRICAS CLAVE PARA MODELO DE ENGAGEMENT:
     ├── Features principales: completion_rate, skip_resistance, context_preference
     ├── Split temporal: 2013-2022 (train), 2023 (val), 2024 (test)
     └── Agregación objetivo: ~16,527 canciones para modelado
-
-PRÓXIMOS PASOS:
-1. Implementar pipeline Bronze → Silver → Gold
-2. Crear métricas de engagement compuestas
-3. Agregar datos por canción
-4. Entrenar modelos de clasificación
-5. Evaluar performance y interpretabilidad
         
